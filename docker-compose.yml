@@ -13,6 +13,7 @@ services:
       - ./docker/php/psysh:/root/.config/psysh
       - ./logs:/var/log/php
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./.ssh/ssh_host_rsa_key:/root/.ssh/ssh_host_rsa_key
     working_dir: /work
     environment:
       - DB_CONNECTION=mysql
@@ -88,6 +89,13 @@ services:
     image: mailhog/mailhog
     ports:
       - ${MAILHOG_PORT}:8025
+
+  sftp-server:
+    image: atmoz/sftp
+    volumes:
+      - ./sftp-store:/home/foo/share
+      - ./.ssh/ssh_host_rsa_key.pub:/home/foo/.ssh/keys/ssh_host_rsa_key.pub
+    command: foo::1001
 
 volumes:
   db-store:
