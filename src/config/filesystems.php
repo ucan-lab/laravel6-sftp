@@ -64,6 +64,16 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'sftp-disk' => [
+            'driver' => 'sftp',
+            'host' => 'sftp-server',
+            'port' => 22,
+            'username' => 'foo',
+            'privateKey' => '/root/.ssh/ssh_host_rsa_key',
+            'root' => 'share',
+            'timeout' => 10,
+            'directoryPerm' => 0755,
+        ],
     ],
 
 ];
