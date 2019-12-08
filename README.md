@@ -1,9 +1,29 @@
-# docker-laravel
+# laravel6-sftp
 
-Build Laravel's development environment using docker.
-PHP7.3/MySQL8.0/nginx/redis/node
+```
+$ git clone git@github.com:ucan-lab/laravel6-sftp.git
+$ cd laravel6-sftp
+```
 
-## Build
+```
+$ mkdir sftp-store
+$ echo "hello" > sftp-store/world.txt
+```
 
-- [Build for Mac](https://github.com/ucan-lab/docker-laravel/wiki/Build-for-Mac)
-- [Build for Windows](https://github.com/ucan-lab/docker-laravel/wiki/Build-for-Windows)
+```
+$ mkdir .ssh
+$ ssh-keygen -t rsa -b 4096 -N "" -f .ssh/ssh_host_rsa_key
+```
+
+```
+$ docker-compose up -d --build
+$ docker-compose exec app composer install
+$ docker-compose exec app cp .env.example .env
+$ docker-compose exec app php artisan key:generate
+```
+
+```shell-session
+$ docker-compose exec app php artisan tinker
+>>> Storage::disk('sftp-disk')->get('world.txt');
+=> "hello\n"
+```
